@@ -1,0 +1,9 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=391
+
+This package has functions for inserting various LaTeX commands. Has ability to insert, delete, change enviroment. Has macros for operating on commands with two or more argument, etc.
+
+Also there is functions for operating with citations and references. Mainly it's insertion into document, with quite user-friendly selection.
+
+Now it has documentation, in style of VIM help files.
+
+So if you have any wishes, ideas, etc. feel free to contact me.
