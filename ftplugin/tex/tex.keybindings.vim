@@ -98,6 +98,7 @@ map! <C-H>eg		<Esc>:call TeXInsertEnviroment("tabbing")<CR>a
 map <C-H>em			call TeXInsertEnviroment("displaymath")<CR>
 map! <C-H>em		<Esc>:call TeXInsertEnviroment("displaymath")<CR>a
 " }}}
+map <C-H>f			:call TeXFoldEnviroment()<CR>
 map <C-H>d			:call TeXDeleteEnviroment()<CR>
 map! <C-H>d			<Esc>:call TeXDeleteEnviroment()<CR>a
 map <C-H>C			:call TeXRenameEnviroment(input("New Enviroment: ", ""))<CR>
@@ -188,5 +189,23 @@ inoremap `<C-S> \sin
 inoremap `<C-T> \tan
 inoremap `<M-l> \ell
 inoremap `<CR> \nonumber\\<CR><HOME>&&<Left>
+" }}}
+" Citation, Reference mappings {{{
+map <Leader>ri	:call TeXInsertRef()<CR>
+map <Leader>rr	:call TeXRefScan()<CR>
+map <Leader>ci	:call TeXInsertBibliography()<CR>
+map <Leader>cr	:call TeXScanBibliography()<CR>
+" }}}
+" Running commands {{{
+map <C-T>V		:call TeXCompilePS()<CR>
+map <C-T>v		:call TeXViewPS()<CR>
+map! <C-T>v		<Esc>:call TeXViewPS()<CR>a
+map <C-T>M		:call TeXCreateMakefile()<CR>
+map <C-T>D		:call TeXCompileDVI()<CR>
+map <C-T>d		:call TeXViewDVI()<CR>
+map! <C-T>d		<Esc>:call TeXViewDVI()<CR>a
+map <C-T>P		:call TeXCompilePDF()<CR>
+map <C-T>p		:call TeXViewPDF()<CR>
+map! <C-T>p		<Esc>:call TeXViewPDF()<CR>a
 " }}}
 " }}}

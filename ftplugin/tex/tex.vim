@@ -14,12 +14,14 @@ function! TeXInit()
 	let b:TeX_bib_buffer = 0
 	let b:TeX_bib_file = ""
 	let b:TeX_dvips = "dvips"
-	let b:TeX_latex = "cslatex"
+	let b:TeX_latex = "latex"
+	let b:TeX_pdflatex = "pdflatex"
 	let b:TeX_bibtex = "bibtex"
 	let b:TeX_vi_bibtex = "vi-bibtex.pl"
 	let b:TeX_ps_view = "gv"
 	let b:TeX_dvi_view = "xdvi"
-	let b:TeX_czech_quotes = 1
+	let b:TeX_pdf_view = "xpdf"
+	let b:TeX_czech_quotes = 0
 endfunction
 " }}}
 " function! TeXDone() {{{
@@ -71,6 +73,25 @@ function! TeXViewPS()
 	else
 		call TeXCompilePS()
 		exe ":!".b:TeX_ps_view." ".TeXChangeExt(expand("%"), "ps")
+	endif
+endfunction
+" }}}
+" function! TeXViewPDF() {{{
+function! TeXViewPDF() 
+	if(filereadable("Makefile"))
+		exe ":!make viewpdf"
+	else
+		call TeXCompilePDF()
+		exe ":!".b:TeX_pdf_view." ".TeXChangeExt(expand("%"), "pdf")
+	endif
+endfunction
+" }}}
+" function! TeXCompilePDF() {{{
+function! TeXCompilePDF() 
+	if(filereadable("Makefile"))
+		exe ":!make pdf"
+	else
+		exe ":!".b:TeX_pdflatex." %"
 	endif
 endfunction
 " }}}
@@ -674,16 +695,26 @@ endfunction
 function! TeXCreateMakefile()
 	if(!filereadable("Makefile"))
 		let name = expand("%")
+		let tmp_latex = b:TeX_latex
+		let tmp_dvips = b:TeX_dvips
+		let tmp_ps_view = b:TeX_ps_view
+		let tmp_dvi_view = b:TeX_dvi_view
+		let tmp_pdf_view = b:TeX_pdf_view
+		let tmp_pdflatex = b:TeX_pdflatex
 		exe ":new Makefile"
-		exe "normal ialb: dvi ps\<CR>\<CR>"
+		exe "normal iall: dvi ps\<CR>\<CR>"
 		exe "normal idvi: ".name."\<CR>"
-		exe "normal i\t".b:TeX_latex." ".name."\<CR>\<CR>"
-		exe "normal ips: ".TeXChangeExt(name, "dvi")."\<CR>"
-		exe "normal i\t".b:TeX_dvips." ".TeXChangeExt(name, "dvi")." ".TeXChangeExt(name, "ps")."\<CR>\<CR>"
+		exe "normal i\t".tmp_latex." ".name."\<CR>\<CR>"
+		exe "normal ips: dvi\<CR>"
+		exe "normal i\t".tmp_dvips." ".TeXChangeExt(name, "dvi")." ".TeXChangeExt(name, "ps")."\<CR>\<CR>"
 		exe "normal iviewps: ps\<CR>"
-		exe "normal i\t".b:TeX_ps_view." ".TeXChangeExt(name, "ps")."\<CR>\<CR>"
+		exe "normal i\t".tmp_ps_view." ".TeXChangeExt(name, "ps")."\<CR>\<CR>"
 		exe "normal iview: dvi\<CR>"
-		exe "normal i\t".b:TeX_dvi_view." ".TeXChangeExt(name, "dvi")."\<CR>\<CR>"
+		exe "normal i\t".tmp_dvi_view." ".TeXChangeExt(name, "dvi")."\<CR>\<CR>"
+		exe "normal ipdf:\<CR>"
+		exe "normal i\t".tmp_pdflatex." ".name."\<CR>\<CR>"
+		exe "normal iviewpdf: pdf\<CR>"
+		exe "normal i\t".tmp_pdf_view." ".TeXChangeExt(name, "pdf")."\<CR>\<CR>"
 		exe ":wq"
 	endif
 endfunction
@@ -934,8 +965,7 @@ endif
 " }}}
 
 " Initialization {{{
-call TeXInit()
-
-source tex.keybindings.vim
-source tex.menu.vim
+if(g:TeX_do_init == 1)
+	call TeXInit()
+endif
 " }}}

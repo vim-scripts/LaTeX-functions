@@ -1,0 +1,166 @@
+*tex.txt*	For Vim version 6.x.	Last change: 2002 Oct 27
+
+*tex_toc*	Table of contents
+
+|basic_usage|	Quick start
+|installation|	How to install TeX editing macros
+|key_maps|	What key mappings are provided by this package
+|bibtex|	How to use BibTeX databases with this package
+|tex_variables|	What variables this packages uses
+|triggers|	How tot write triggered commands
+
+-------------------------------------------------------------------------------
+*basic_usage*	Basic Usage of TeX editing macros
+
+This packages is in development, so if you can help to improve it, you are
+welcome to post changes. Also good ideas are welcome.
+
+The easiest way of using this packages is in GVIM, because of it's menu. In
+this menu is enabled nearly all features of this macros. This is due to I want
+give users ability to define their own key-mappings for written features.
+
+So any questions, ideas, changes, etc. please post to my E-mail:
+	xvaigl@fi.muni.cz
+
+						Thank Karel VAIGL
+
+-------------------------------------------------------------------------------
+*installation*	How to install TeX editing macros
+
+Package now contain these four files:
+	tex.vim			- Main macro file
+	tex.file.vim		- This file I use for cooperation with my
+				other macros packages
+	tex.keybindings.vim	- Key-mappings definitions
+	tex.menu.vim		- GUI menu definition
+
+The easiest way for installing this is to create directory
+"~/.vim/ftplugin/tex" and copy all of these files there. That every time you
+start editing ".tex" file, vim load this macros for you. If you want
+auto-initilization of TeX macros, you can do it by adding this line to your
+personal settings.
+	let g:TeX_do_init = 1
+When you want do disable auto-initialization then write "0" on place of "1".
+Or you can call function TeXInit() on that place you need to do it.
+
+If have this, you also need to copy file "vi-bibtex.pl" to some place which is
+in your current PATH. At all you need to do this only if you want to use
+citation insert commands.
+
+-------------------------------------------------------------------------------
+*key_maps*	What key mappings are provided by this package
+
+Only for GUI
+<M-CR>		Inserts "newline" or performs action for divide elements of
+		currently edited enviroment. 
+		"itemize" - add new line with \item inserted
+		"enumerate" -     --- || ---
+		"description" - Inserts \item and ask for description
+		"array" - Inserts properly "&" or "\\"
+<C-Left>	Move cursor to start of previous argument of current command
+<C-Right>	Move cursor to start of next argument of current command
+<C-Delete>	Delete value of edited argument
+
+Only for console
+<C-E>		Inserts "newline" or performs action for divide elements of
+		currently edited enviroment. 
+		"itemize" - add new line with \item inserted
+		"enumerate" -     --- || ---
+		"description" - Inserts \item and ask for description
+		"array" - Inserts properly "&" or "\\"
+<C-A>h		Move cursor to start of previous argument of current command
+<C-A>l		Move cursor to start of next argument of current command
+<C-A>d		Delete value of edited argument
+
+Font commands
+<C-F>b		Bold (\bf)
+<C-F>i		Italic (\it)
+<C-F>t		TypeWriter (\tt)
+<C-F>e		Emphasized (\em)
+<C-F>l		\large
+<C-F>L		\Large
+<C-F>s		\small
+<C-F>S		\Small
+<C-F>h		\huge
+<C-F>H		\Huge
+
+Enviroment commands
+<C-H>d		Delete enviroment under cursor
+<C-H>C		Rename enviroment under cursor
+<C-H>E		Insert enviroment (aks for enviroment name)
+<C-H>f		Fold enviroment under cursor (using foldmethod=marker)
+<C-H>ee		Enviroment "equation"
+<C-H>ef		Enviroment "figure"
+<C-H>et		Enviroment "table"
+<C-H>ea		Enviroment "array"
+<C-H>eb		Enviroment "tabular"
+<C-H>eq		Enviroment "eqnarray"
+<C-H>eg		Enviroment "tabbing"
+<C-H>em		Enviroment "displaymath"
+
+Citation
+<Leader>ci	Insert citation
+<Leader>cr	Rereads bibliography database
+
+Reference
+<Leader>ri	Insert reference to some item
+<Leader>rr	Rereads document and finds all defined labels
+
+Run programs/utilities
+<C-T>v		View current document as PostScript
+<C-T>V		Create PostScript from current document
+<C-T>d		View current document as DVI
+<C-T>D		Create DVI form current document
+<C-T>p		View current document as PDF
+<C-T>P		Create PDF from current document
+<C-T>M		Create Makefile for compiling current document
+
+Greek letters mapping - from Carl Mueller, cmlr@math.rochester.edu
+
+-------------------------------------------------------------------------------
+*bibtex*	How to use BibTeX databases with this package
+
+This package has now support for only one bibliography database in document.
+Function which performs searching throught citation has ability to find the
+\bibliography{} command and it use this value.
+
+Also you must have the script "vi-bibtex.pl" somewhere in your path. This
+implies the need for installed perl interpreter.
+
+If you add entry into this database you must call rescan of bibliography
+database <Leader>cr, or :call TeXScanBibliography(). Otherwise the changes
+does not take effect.
+
+-------------------------------------------------------------------------------
+*tex_variables* What variables this packages uses
+
+Default values of this variables sets function TeXInit(), so if you want to
+have yours you must set it after the TeXInit() is called. See |installation|
+section above for details.
+
+g:TeX_loaded	0 - if TeX macros are not loaded into VIM
+		1 - if they are loaded
+b:TeX_dvips	program which is used to convert DVI to PS
+		default "dvips"
+b:TeX_latex	program which is used to compile TeX to DVI
+		default "latex"
+b:TeX_pdflatex	program which is used to compile TeX to PDF
+		default "pdflatex"
+b:TeX_bibtex	program which do process citations
+		default "bibtex"
+b:TeX_vi_bibtex	program which scans bibliography databases for proper citation
+		default "vi-bibtex.pl"
+b:TeX_ps_view	program for viewing PS file
+		default "gv"
+b:TeX_dvi_view	program for viewing DVI file
+		default "xdvi"
+b:TeX_pdf_view	program for viewing PDF file
+		default "xpdf"
+b:TeX_czech_quotes	1 - if you want quotes like ,,``
+			0 - otherwise
+
+-------------------------------------------------------------------------------
+*triggers*	How tot write triggered commands
+
+-------------------------------------------------------------------------------
+ vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:
